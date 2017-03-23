@@ -1,7 +1,7 @@
 ﻿#include <stdio.h>
 #include "scoroutine.h"
 
-#define _INT_TEST	(5)
+#define _INT_TEST	(500000)
 
 struct args {
 	int n;
@@ -38,14 +38,14 @@ static void _test(void * sco) {
  */
 int main(void) {
 	void * sco = sco_open();
-	
+	struct args arg = { 222 };
+	int i, co = sco_create(sco, _foo, &arg);
+
 	puts("--------------------突然想起了什么,--------------------\n");
 	_test(sco);
 
 	// 再来测试一下, 纤程切换问题
-	struct args arg = { 222 };
-	int co = sco_create(sco, _foo, &arg);
-	for (int i = -1; i < _INT_TEST; ++i)
+	for (i = -1; i < _INT_TEST; ++i)
 		sco_resume(sco, co);
 
 	puts("\n--------------------笑了笑, 我自己.--------------------");
